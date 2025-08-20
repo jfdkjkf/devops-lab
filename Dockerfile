@@ -1,17 +1,8 @@
-# Use official Python base image
-FROM python:3.10-slim
-
-# Set working directory
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
-
-# Copy current folder contents into /app
-COPY . /app
-
-# Install dependencies
-RUN pip install --no-cache-dir fastapi uvicorn
-
-# Expose port 8000
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 EXPOSE 8000
-
-# Run FastAPI with uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn","main:app","--host","0.0.0.0","--port","8000"]
